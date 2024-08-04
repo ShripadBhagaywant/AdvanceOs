@@ -1,0 +1,20 @@
+#include<stdio.h>
+#include<malloc.h>
+
+int main()
+{
+    struct mallinfo mi = mallinfo();
+    
+    printf("Total non-mmapped bytes(arena):%d\n",mi.arena);
+    printf("Total Of free chanks(ordblks):%d\n",mi.ordblks);
+    printf("Total of free fastbin blocks(smblks):%d\n",mi.smblks);
+    printf("Total Of mapped region(hblks):%d\n",mi.hblks);
+    printf("Total Bytes mapped region(hblkhd):%d\n",mi.hblkhd);
+    printf("Total max allocate space(usmblks):%d\n",mi.usmblks);
+    printf("free bytes helid in fastbin(fsmblks):%d\n",mi.fsmblks);
+    printf("Total space allocated(uordblks):%d\n",mi.uordblks);
+    printf("Total free space (fordblks):%d\n",mi.fordblks);
+    printf("Topmost releasable block(keepcost):%d\n",mi.keepcost);
+    
+    return 0;
+}

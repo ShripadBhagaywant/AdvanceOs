@@ -1,0 +1,66 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<signal.h>
+
+void child(int snum)
+{
+    switch(snum)
+    {
+        case SIGHUP:
+        printf("\n child:Have required SIGHUP");
+        break;
+        
+        case SIGINT:
+        printf("\n child:Have required SIGINT");
+        break;
+        
+        case SIGQUIT:
+        printf("\n child:This is good");
+        exit(0);
+        break;
+        
+        default:
+            printf("error");
+        
+    }
+}
+int main()
+{
+    pid_t pid;
+    int i;
+    pid=fork();
+    
+    if(pid<0)
+    {
+        perror("fork");
+        exit(1);
+    }
+    if(pid==0)
+    {
+        signal(SIGHUP,child);
+        signal(SIGINT,child);
+        signal(SIGQUIT,child);
+        
+        while(1)
+        {
+            sleep(1);
+        }
+    }
+    else
+    {
+        for(i=1;i<=5;i++)
+        {
+            sleep(3);
+            if(i%2==0)
+            {
+                printf("\n Parent:sending SIGINT");
+                kill(pid,SIGINT);
+            }
+        }
+        sleep(3);
+        printf("sending SIGQUIT single to child");
+        kill(pid,SIGQUIT); 
+    }
+    return 0;
+}

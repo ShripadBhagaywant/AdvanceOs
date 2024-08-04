@@ -1,0 +1,35 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<fcntl.h>
+
+char b1[]="Wlecome";
+char b2[]="Computer Scince";
+
+int main(void)
+{
+    int fd;
+     if((fd=creat("hole.txt",0777))<0)
+     {
+        perror("Creat error");
+        exit(EXIT_FAILURE);
+     }
+     
+     if(lseek(fd,100,SEEK_SET)==-1)
+     {
+        perror("Creat error");
+        exit(EXIT_FAILURE);
+     }
+     
+     if(write(fd,b2,sizeof(b2)-1)!=sizeof(b2)-1)
+     {
+        perror("b2 error");
+        exit(EXIT_FAILURE);
+     }
+     
+     close(fd);
+     
+     printf("File created Successfully:hole.txt");
+     
+     return 0;
+}

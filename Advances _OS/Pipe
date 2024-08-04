@@ -1,0 +1,35 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+
+int main()
+{
+    int fd[2];
+    char buf[30];
+    
+    if(pipe(fd)==-1)
+    {
+        perror("Error Creating a pipe\n");
+        exit(1);
+    }
+    if(!fork())
+    {
+        printf("CHILD:Writing to the pipe\n");
+        
+        write(fd[1],"Hello Mother(or Father)",26);
+        printf("Child:Exist\n");
+        exit(0);
+    }
+    else
+    {
+        printf("Parent:reading from pipe\n");
+        
+        read(fd[0],buf,26);
+        
+        printf("Parent:read\"%s\"",buf);
+        //wait(NULL);
+        printf("Parent:exit\n");
+        
+    }
+    return 0;
+}
